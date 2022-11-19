@@ -1,0 +1,49 @@
+version: '3'
+services:
+  web:
+    image: tootsuite/mastodon:v3.5.5
+    restart: always
+    env_file: .env.production
+    command: bash -c "rm -f /mastodon/tmp/pids/server.pid; bundle exec rails s -p 3000"
+    networks:
+      - external_network
+      - internal_network
+    healthcheck:
+      # prettier-ignore
+      test: ['CMD-SHELL', 'wget -q --spider --proxy=off localhost:3000/health || exit 1']
+    ports:
+      - '127.0.0.1:3000:3000'
+    volumes:
+      - /media/ebs/app/public/system:/mastodon/public/system
+
+  streaming:
+    image: tootsuite/mastodon:v3.5.5
+    restart: always
+    env_file: .env.production
+    command: node ./streaming
+    networks:
+      - external_network
+      - internal_network
+    healthcheck:
+      # prettier-ignore
+      test: ['CMD-SHELL', 'wget -q --spider --proxy=off localhost:4000/api/v1/streaming/health || exit 1']
+    ports:
+      - '127.0.0.1:4000:4000'
+
+  sidekiq:
+    image: tootsuite/mastodon:v3.5.5
+    restart: always
+    env_file: .env.production
+    command: bundle exec sidekiq
+    networks:
+      - external_network
+      - internal_network
+    volumes:
+      - /media/ebs/app/public/system:/mastodon/public/system
+    healthcheck:
+      test: ['CMD-SHELL', "ps aux | grep '[s]idekiq\ 6' || false"]
+
+networks:
+  external_network:
+  internal_network:
+    internal: true
