@@ -1,0 +1,50 @@
+- name: Remove snapd
+  ansible.builtin.apt:
+    name: snapd
+    state: absent
+    purge: true
+
+- name: Remove snapd leftovers, if any
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /snap
+    - /var/snap
+    - /usr/lib/snapd
+    - /var/lib/snapd
+    - /var/cache/snapd
+    - /home/ubuntu/snap
+    - /root/snap
+
+- name: Ensure snapd never gets automatically installed
+  ansible.builtin.copy:
+    src: no-snap.pref
+    dest: /etc/apt/preferences.d/no-snap.pref
+    mode: 0644
+
+- name: Disable unattended-upgrades
+  ansible.builtin.systemd:
+    name: unattended-upgrades
+    state: stopped
+    enabled: false
+
+- name: Remove unused packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: absent
+    purge: true
+  with_items:
+    - at
+    - ubuntu-advantage-tools
+    - accountsservice
+    - multipath-tools
+    - udisks2
+    - lxd-agent-loader
+    - modemmanager
+    - irqbalance
+
+- name: Clean unneeded packages
+  ansible.builtin.apt:
+    autoremove: true
+    purge: true
