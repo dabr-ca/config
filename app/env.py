@@ -27,7 +27,7 @@ class ConfigGenerator:
         )
         secrets = {
             'REDIS_HOST': self.get_parameter('/mastodon/redis/address'),
-            'DB_HOST': self.get_parameter('/mastodon/postgres/endpoint'),
+            'DB_HOST': self.get_parameter('/mastodon/postgres/address'),
             'DB_PASS': self.get_parameter('/mastodon/postgres/password'),
             'SMTP_LOGIN': self.get_parameter('/mastodon/ses/username'),
             'SMTP_PASSWORD': self.get_parameter('/mastodon/ses/password'),
