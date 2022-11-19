@@ -1,0 +1,4 @@
+ebs_device: /dev/nvme1n1
+ebs_partition: /dev/nvme1n1p1
+ebs_fstype: ext4
+ebs_mount_point: /media/ebs

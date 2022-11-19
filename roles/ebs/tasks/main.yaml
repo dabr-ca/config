@@ -1,0 +1,21 @@
+- name: Partition EBS volume
+  community.general.parted:
+    device: "{{ ebs_device }}"
+    label: gpt
+    number: 1
+    fs_type: "{{ ebs_fstype }}"
+    name: ebs
+    state: present
+
+- name: Format EBS volume
+  community.general.filesystem:
+    dev: "{{ ebs_partition }}"
+    fstype: "{{ ebs_fstype }}"
+    state: present
+
+- name: Mount EBS volume
+  ansible.posix.mount:
+    src: "{{ ebs_partition }}"
+    path: "{{ ebs_mount_point }}"
+    fstype: "{{ ebs_fstype }}"
+    state: mounted

@@ -1,0 +1,2 @@
+app_base: /media/ebs
+app_home: "{{ app_base }}/app"
