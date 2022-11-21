@@ -1,0 +1,7 @@
+---
+# vim: ft=yaml:
+skip_list:
+  - role-name
+  - fqcn-builtins
+  - no-handler
+  - git-latest
