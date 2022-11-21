@@ -1,0 +1,16 @@
+- name: Install Nginx
+  apt:
+    name: nginx
+    update_cache: true
+
+- name: Render Nginx config
+  template:
+    src: mastodon.conf.j2
+    dest: /etc/nginx/sites-enabled/mastodon.conf
+    mode: 0644
+  notify:
+    - restart nginx
+
+- name: Check Nginx config
+  command: nginx -t
+  changed_when: false
