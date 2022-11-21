@@ -1,0 +1,5 @@
+---
+# vim: ft=yaml:
+rules:
+  comments: disable
+  line-length: disable

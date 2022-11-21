@@ -31,10 +31,10 @@ class ConfigGenerator:
             'DB_PASS': self.get_parameter('/mastodon/postgres/password'),
             'SMTP_LOGIN': self.get_parameter('/mastodon/ses/username'),
             'SMTP_PASSWORD': self.get_parameter('/mastodon/ses/password'),
-            'VAPID_PUBLIC_KEY': self.get_parameter('/mastodon/vapid/public_key'),
-            'VAPID_PRIVATE_KEY': self.get_parameter('/mastodon/vapid/private_key'),
-            'SECRET_KEY_BASE': self.get_parameter('/mastodon/secret_key_base'),
-            'OTP_SECRET': self.get_parameter('/mastodon/otp_secret'),
+            'OTP_SECRET': self.get_parameter('/mastodon/secrets/OTP_SECRET'),
+            'SECRET_KEY_BASE': self.get_parameter('/mastodon/secrets/SECRET_KEY_BASE'),
+            'VAPID_PRIVATE_KEY': self.get_parameter('/mastodon/secrets/VAPID_PRIVATE_KEY'),
+            'VAPID_PUBLIC_KEY': self.get_parameter('/mastodon/secrets/VAPID_PUBLIC_KEY'),
         }
         env.globals['secrets'] = secrets
 
