@@ -66,9 +66,9 @@ config :pleroma, Pleroma.Upload, filters: [Pleroma.Upload.Filter.Exiftool]
 config :ex_aws,
   region: "us-west-2"
 
-config :pleroma, Pleroma.Emails.Mailer,
-  enabled: true,
-  adapter: Swoosh.Adapters.ExAwsAmazonSES
+#config :pleroma, Pleroma.Emails.Mailer,
+#  enabled: true,
+#  adapter: Swoosh.Adapters.ExAwsAmazonSES
 
 # Generate and include secrets
 # https://github.com/angristan/docker-pleroma/blob/51724af0882b908a18dc12c11fef60eb8308fb3a/config.exs#L37-L62
