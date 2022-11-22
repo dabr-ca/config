@@ -1,7 +1,0 @@
-- name: Create user
-  ansible.builtin.user:
-    name: app
-    home: "{{ app_home }}"
-    create_home: true
-    skeleton: false
-    system: true
