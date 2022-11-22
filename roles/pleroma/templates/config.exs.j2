@@ -39,24 +39,22 @@ config :pleroma, Pleroma.Uploaders.Local, uploads: "/var/lib/pleroma/uploads"
 # Configure S3 support if desired.
 # The public S3 endpoint (base_url) is different depending on region and provider,
 # consult your S3 provider's documentation for details on what to use.
-#
-# config :pleroma, Pleroma.Upload,
-#  uploader: Pleroma.Uploaders.S3,
-#  base_url: "https://s3.amazonaws.com"
-#
-# config :pleroma, Pleroma.Uploaders.S3,
-#   bucket: "some-bucket",
-#   bucket_namespace: "my-namespace",
-#   truncated_namespace: nil,
-#   streaming_enabled: true
-#
-# Configure S3 credentials:
-# config :ex_aws, :s3,
-#   access_key_id: "xxxxxxxxxxxxx",
-#   secret_access_key: "yyyyyyyyyyyy",
-#   region: "us-east-1",
-#   scheme: "https://"
-#
+
+config :pleroma, Pleroma.Upload,
+ uploader: Pleroma.Uploaders.S3,
+ base_url: "https://files.dabr.ca"
+
+config :pleroma, Pleroma.Uploaders.S3,
+  bucket: "lookup('aws_ssm', '/dabr-ca/s3_bucket')",
+  bucket_namespace: "uploads",
+  truncated_namespace: nil,
+  streaming_enabled: true
+
+Configure S3 credentials:
+config :ex_aws, :s3,
+  region: "us-west-2",
+  scheme: "https://"
+
 # For using third-party S3 clones like wasabi, also do:
 # config :ex_aws, :s3,
 #   host: "s3.wasabisys.com"
