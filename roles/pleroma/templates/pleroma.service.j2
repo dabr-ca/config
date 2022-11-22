@@ -1,6 +1,7 @@
+# vim: ft=systemd:
 [Unit]
 Description=Pleroma social network
-After=network.target postgresql.service nginx.service
+After=network.target
 
 [Service]
 KillMode=process
@@ -11,12 +12,12 @@ User=pleroma
 
 ; Make sure that all paths fit your installation.
 ; Path to the home directory of the user running the Pleroma service.
-Environment="HOME=/opt/pleroma"
+Environment="HOME={{ pleroma_home }}"
 ; Path to the folder containing the Pleroma installation.
-WorkingDirectory=/opt/pleroma
+WorkingDirectory={{ pleroma_home }}
 ; Path to the Pleroma binary.
-ExecStart=/opt/pleroma/bin/pleroma start
-ExecStop=/opt/pleroma/bin/pleroma stop
+ExecStart={{ pleroma_home }}/pleroma start
+ExecStop={{ pleroma_home }}/pleroma stop
 
 ; Some security directives.
 ; Use private /tmp and /var/tmp folders inside a new file system namespace, which are discarded after the process stops.
