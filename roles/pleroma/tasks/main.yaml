@@ -53,7 +53,7 @@
     dest: "{{ pleroma_config }}/config.exs"
     owner: pleroma
     group: pleroma
-    mode: 0644
+    mode: 0600
 
 - name: render systemd service unit
   template:
