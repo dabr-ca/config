@@ -1,4 +1,5 @@
 # Pleroma instance configuration
+# vim: ft=elixir:
 
 import Config
 
@@ -46,14 +47,14 @@ config :pleroma, Pleroma.Upload,
 
 config :pleroma, Pleroma.Uploaders.S3,
   bucket: "{{ lookup('aws_ssm', '/dabr-ca/s3_bucket') }}",
-  bucket_namespace: "uploads",
-  truncated_namespace: nil,
+  truncated_namespace: "",
   streaming_enabled: true
 
 # Configure S3 credentials:
 config :ex_aws, :s3,
+  access_key_id: :instance_role,
+  secret_access_key: :instance_role,
   region: "us-west-2",
-  scheme: "https://"
 
 # For using third-party S3 clones like wasabi, also do:
 # config :ex_aws, :s3,
