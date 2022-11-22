@@ -63,6 +63,9 @@ config :pleroma, Pleroma.Upload, filters: [Pleroma.Upload.Filter.Exiftool]
 
 # Email
 # https://docs.pleroma.social/backend/configuration/cheatsheet/#email
+config :ex_aws,
+  region: "us-west-2"
+
 config :pleroma, Pleroma.Emails.Mailer,
   enabled: true,
   adapter: Swoosh.Adapters.ExAwsAmazonSES

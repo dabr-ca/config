@@ -16,8 +16,8 @@ Environment="HOME={{ pleroma_home }}"
 ; Path to the folder containing the Pleroma installation.
 WorkingDirectory={{ pleroma_home }}
 ; Path to the Pleroma binary.
-ExecStart={{ pleroma_home }}/pleroma start
-ExecStop={{ pleroma_home }}/pleroma stop
+ExecStart={{ pleroma_home }}/bin/pleroma start
+ExecStop={{ pleroma_home }}/bin/pleroma stop
 
 ; Some security directives.
 ; Use private /tmp and /var/tmp folders inside a new file system namespace, which are discarded after the process stops.
