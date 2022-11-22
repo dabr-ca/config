@@ -12,7 +12,7 @@ User=pleroma
 
 ; Make sure that all paths fit your installation.
 ; Path to the home directory of the user running the Pleroma service.
-EnvironmentFile={{ pleroma_config }}/env
+Environment="HOME={{ pleroma_home }}"
 ; Path to the folder containing the Pleroma installation.
 WorkingDirectory={{ pleroma_home }}
 ; Path to the Pleroma binary.

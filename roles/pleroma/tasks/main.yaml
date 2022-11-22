@@ -47,21 +47,13 @@
     - "{{ pleroma_data }}"
     - "{{ pleroma_config }}"
 
-- name: copy config file
-  copy:
-    src: config.exs
+- name: render config file
+  template:
+    src: config.exs.j2
     dest: "{{ pleroma_config }}/config.exs"
     owner: pleroma
     group: pleroma
     mode: 0644
-
-- name: render env file
-  template:
-    src: env.j2
-    dest: "{{ pleroma_config }}/env"
-    owner: pleroma
-    group: pleroma
-    mode: 0600
 
 - name: render systemd service unit
   template:

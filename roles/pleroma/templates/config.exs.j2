@@ -1,8 +1,5 @@
 # Pleroma instance configuration
 
-# NOTE: This file should not be committed to a repo or otherwise made public
-# without removing sensitive information.
-
 import Config
 
 config :pleroma, Pleroma.Web.Endpoint,
@@ -23,10 +20,10 @@ config :pleroma, :media_proxy,
 
 config :pleroma, Pleroma.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: System.get_env("DB_USER", "pleroma"),
-  password: System.fetch_env!("DB_PASS"),
-  database: System.get_env("DB_NAME", "pleroma"),
-  hostname: System.get_env("DB_HOST", "localhost")
+  username: "pleroma",
+  password: "{{ lookup('aws_ssm', '/dabr-ca/postgres/password') }}",
+  database: "pleroma",
+  hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}"
 
 # Configure web push notifications
 config :web_push_encryption, :vapid_details, subject: "mailto:wzyboy@wzyboy.org"
