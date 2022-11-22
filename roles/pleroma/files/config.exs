@@ -7,7 +7,7 @@ import Config
 
 config :pleroma, Pleroma.Web.Endpoint,
    url: [host: "dabr.ca", scheme: "https", port: 443],
-   http: [ip: {0, 0, 0, 0}, port: 4000],
+   http: [ip: {0, 0, 0, 0}, port: 4000]
 
 config :pleroma, :instance,
   name: "dabr.ca",
@@ -26,10 +26,10 @@ config :pleroma, Pleroma.Repo,
   username: System.get_env("DB_USER", "pleroma"),
   password: System.fetch_env!("DB_PASS"),
   database: System.get_env("DB_NAME", "pleroma"),
-  hostname: System.get_env("DB_HOST", "localhost"),
+  hostname: System.get_env("DB_HOST", "localhost")
 
 # Configure web push notifications
-config :web_push_encryption, :vapid_details, subject: "mailto:wzyboy@wzyboy.org",
+config :web_push_encryption, :vapid_details, subject: "mailto:wzyboy@wzyboy.org"
 
 config :pleroma, :database, rum_enabled: false
 config :pleroma, :instance, static_dir: "/var/lib/pleroma/static"
