@@ -11,6 +11,7 @@
       - imagemagick
       - ffmpeg
       - libimage-exiftool-perl
+    update_cache: true
 
 - name: add user
   user:
