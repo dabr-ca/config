@@ -7,7 +7,7 @@
       - unzip
       - libncurses5
       - postgresql-client
-      - libmagic-dev0
+      - libmagic-dev
       - imagemagick
       - ffmpeg
       - libimage-exiftool-perl
@@ -19,11 +19,18 @@
     home: "{{ pleroma_home }}"
     system: true
 
-- name: download and extracts the latest stable release
+- name: download Pleroma release
+  get_url:
+    url: "{{ pleroma_tarball_url }}"
+    dest: /opt/pleroma.tgz
+    mode: 0644
+    checksum: "{{ pleroma_tarball_checksum }}"
+
+- name: extract Pleroma release
   unarchive:
-    #src: "https://git.pleroma.social/api/v4/projects/2/jobs/artifacts/stable/download?job=amd64"
-    src: "https://pub.wzyboy.im/bin/pleroma-2.4.4.tgz"
+    src: /opt/pleroma.tgz
     dest: "{{ pleroma_home }}"
+    remote_src: true
     creates: "{{ pleroma_home }}/OTP_VERSION"
     owner: pleroma
     group: pleroma
@@ -43,6 +50,7 @@
   template:
     src: pleroma.service.j2
     dest: /etc/systemd/system/pleroma.service
+    mode: 0644
 
 - name: enable the service
   systemd:
