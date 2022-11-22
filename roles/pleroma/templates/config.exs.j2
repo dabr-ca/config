@@ -45,12 +45,12 @@ config :pleroma, Pleroma.Upload,
  base_url: "https://files.dabr.ca"
 
 config :pleroma, Pleroma.Uploaders.S3,
-  bucket: "lookup('aws_ssm', '/dabr-ca/s3_bucket')",
+  bucket: "{{ lookup('aws_ssm', '/dabr-ca/s3_bucket') }}",
   bucket_namespace: "uploads",
   truncated_namespace: nil,
   streaming_enabled: true
 
-Configure S3 credentials:
+# Configure S3 credentials:
 config :ex_aws, :s3,
   region: "us-west-2",
   scheme: "https://"
