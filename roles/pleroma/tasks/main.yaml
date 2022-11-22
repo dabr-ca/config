@@ -1,0 +1,68 @@
+# Roughly based on: https://docs-develop.pleroma.social/backend/installation/otp_en/
+
+- name: install packages
+  apt:
+    name:
+      - curl
+      - unzip
+      - libncurses5
+      - postgresql-client
+      - libmagic-dev
+      - imagemagick
+      - ffmpeg
+      - libimage-exiftool-perl
+    update_cache: true
+
+- name: add user
+  user:
+    name: pleroma
+    shell: /bin/bash
+    home: "{{ pleroma_home }}"
+    system: true
+
+- name: download Pleroma release
+  get_url:
+    url: "{{ pleroma_tarball_url }}"
+    dest: /opt/pleroma.tgz
+    mode: 0644
+    checksum: "{{ pleroma_tarball_checksum }}"
+
+- name: extract Pleroma release
+  unarchive:
+    src: /opt/pleroma.tgz
+    dest: "{{ pleroma_home }}"
+    remote_src: true
+    creates: "{{ pleroma_home }}/OTP_VERSION"
+    owner: pleroma
+    group: pleroma
+
+- name: creat dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: pleroma
+    group: pleroma
+    mode: 0755
+  with_items:
+    - "{{ pleroma_data }}"
+    - "{{ pleroma_config }}"
+
+- name: render config file
+  template:
+    src: config.exs.j2
+    dest: "{{ pleroma_config }}/config.exs"
+    owner: pleroma
+    group: pleroma
+    mode: 0644
+
+- name: render systemd service unit
+  template:
+    src: pleroma.service.j2
+    dest: /etc/systemd/system/pleroma.service
+    mode: 0644
+
+- name: enable the service
+  systemd:
+    name: pleroma
+    enabled: true
+    daemon_reload: true
