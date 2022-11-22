@@ -1,0 +1,51 @@
+# Roughly based on: https://docs-develop.pleroma.social/backend/installation/otp_en/
+
+- name: install packages
+  apt:
+    name:
+      - curl
+      - unzip
+      - libncurses5
+      - postgresql-client
+      - libmagic-dev0
+      - imagemagick
+      - ffmpeg
+      - libimage-exiftool-perl
+
+- name: add user
+  user:
+    name: pleroma
+    shell: /bin/bash
+    home: "{{ pleroma_home }}"
+    system: true
+
+- name: download and extracts the latest stable release
+  unarchive:
+    #src: "https://git.pleroma.social/api/v4/projects/2/jobs/artifacts/stable/download?job=amd64"
+    src: "https://pub.wzyboy.im/bin/pleroma-2.4.4.tgz"
+    dest: "{{ pleroma_home }}"
+    creates: "{{ pleroma_home }}/OTP_VERSION"
+    owner: pleroma
+    group: pleroma
+
+- name: creat dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: pleroma
+    group: pleroma
+    mode: 0755
+  with_items:
+    - "{{ pleroma_data }}"
+    - "{{ pleroma_config }}"
+
+- name: render systemd service unit
+  template:
+    src: pleroma.service.j2
+    dest: /etc/systemd/system/pleroma.service
+
+- name: enable the service
+  systemd:
+    name: pleroma
+    enabled: true
+    daemon_reload: true
