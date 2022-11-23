@@ -1,0 +1,4 @@
+- hosts: dabr-ca
+  roles:
+    - role: ubuntu_init
+    - role: pleroma
