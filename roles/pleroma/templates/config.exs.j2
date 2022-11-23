@@ -7,6 +7,10 @@ config :pleroma, Pleroma.Web.Endpoint,
    url: [host: "dabr.ca", scheme: "https", port: 443],
    http: [ip: {0, 0, 0, 0}, port: 4000]
 
+config :pleroma, Pleroma.Web.Plugs.RemoteIp,
+  enabled: true,
+  proxies: ["10.0.0.0/8"]
+
 config :pleroma, :instance,
   name: "dabr.ca",
   email: "wzyboy@wzyboy.org",
