@@ -24,9 +24,9 @@ config :pleroma, :shout,
   enabled: false
 
 config :pleroma, :media_proxy,
-  enabled: false,
-  redirect_on_failure: true
-  #base_url: "https://cache.pleroma.social"
+  enabled: true,
+  redirect_on_failure: false,
+  base_url: "https://files.dabr.ca"
 
 config :pleroma, Pleroma.Repo,
   adapter: Ecto.Adapters.Postgres,
