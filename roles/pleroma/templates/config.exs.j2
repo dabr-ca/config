@@ -82,8 +82,12 @@ config :ex_aws, :s3,
 # Email
 # https://docs.pleroma.social/backend/configuration/cheatsheet/#email
 config :ex_aws,
+  access_key_id: :instance_role,
+  secret_access_key: :instance_role,
   region: "us-west-2"
 
+# Email is currently disabled as IAM role is not available
+# https://git.pleroma.social/pleroma/pleroma/-/issues/3012
 #config :pleroma, Pleroma.Emails.Mailer,
 #  enabled: true,
 #  adapter: Swoosh.Adapters.ExAwsAmazonSES
