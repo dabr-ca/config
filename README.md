@@ -10,3 +10,4 @@ In the event that the administrator of dabr.ca is unable to fulfil their respons
 2. Run `ansible-playbook site.yaml` to install and configure Pleroma.
 3. [Perform database migration tasks](https://docs-develop.pleroma.social/backend/installation/otp_en/).
 4. Start Pleroma with `systemctl start pleroma`.
+5. (Optional) Upload [static files](https://github.com/dabr-ca/static) to [customize](https://docs.pleroma.social/backend/configuration/static_dir/) the look and feel of the site.
