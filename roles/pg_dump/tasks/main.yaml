@@ -19,5 +19,18 @@
 
 - name: dump PostgreSQL database
   command:
-    cmd: "pg_dump -h {{ lookup('aws_ssm', '/dabr-ca/postgres/address') }} -U pleroma -d pleroma -Fc -f {{ ansible_env.HOME }}/pleroma.bin"
-    creates: "{{ ansible_env.HOME }}/pleroma.bin"
+    cmd: "pg_dump -h {{ lookup('aws_ssm', '/dabr-ca/postgres/address') }} -U pleroma -d pleroma -Fc -f {{ pg_dump_path_local }}"
+    creates: "{{ pg_dump_path_local }}"
+
+- name: install boto for accessing S3
+  apt:
+    name:
+      - python3-boto3
+      - python3-botocore
+
+- name: upload dump file to S3
+  amazon.aws.aws_s3:
+    bucket: "{{ lookup('aws_ssm', '/dabr-ca/s3_bucket_backup') }}"
+    mode: put
+    src: "{{ pg_dump_path_local }}"
+    object: "{{ pg_dump_path_s3 }}"
