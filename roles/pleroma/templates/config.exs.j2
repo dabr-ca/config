@@ -35,6 +35,14 @@ config :pleroma, Pleroma.Repo,
   database: "pleroma",
   hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}"
 
+# Increase performance for PostgreSQL 12+
+# https://docs-develop.pleroma.social/backend/configuration/postgresql/#disable-generic-query-plans
+config :pleroma, Pleroma.Repo,
+  prepare: :named,
+  parameters: [
+    plan_cache_mode: "force_custom_plan"
+  ]
+
 # Configure web push notifications
 config :web_push_encryption, :vapid_details, subject: "mailto:wzyboy@wzyboy.org"
 
