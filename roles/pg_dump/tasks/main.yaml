@@ -1,0 +1,36 @@
+---
+# https://www.postgresql.org/download/linux/ubuntu/
+- name: install PostgreSQL repository
+  apt_repository:
+    repo: "deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main"
+
+# The major version needs to be in sync with RDS
+# https://github.com/dabr-ca/infra/blob/d2b06f5bada3e14c60a9a227e866575db3ce7639/modules/pleroma/postgres.tf#L9
+- name: install PostgreSQL client
+  apt:
+    name: postgresql-client-13
+    update_cache: true
+
+- name: configure database credentials
+  template:
+    src: pgpass
+    dest: "{{ ansible_env.HOME }}/.pgpass"
+    mode: 0600
+
+- name: dump PostgreSQL database
+  command:
+    cmd: "pg_dump -h {{ lookup('aws_ssm', '/dabr-ca/postgres/address') }} -U pleroma -d pleroma -Fc -f {{ pg_dump_path_local }}"
+    creates: "{{ pg_dump_path_local }}"
+
+- name: install boto for accessing S3
+  apt:
+    name:
+      - python3-boto3
+      - python3-botocore
+
+- name: upload dump file to S3
+  amazon.aws.aws_s3:
+    bucket: "{{ lookup('aws_ssm', '/dabr-ca/s3_bucket_backup') }}"
+    mode: put
+    src: "{{ pg_dump_path_local }}"
+    object: "{{ pg_dump_path_s3 }}"
