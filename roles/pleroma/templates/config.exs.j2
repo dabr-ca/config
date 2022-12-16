@@ -33,7 +33,8 @@ config :pleroma, Pleroma.Repo,
   username: "pleroma",
   password: "{{ lookup('aws_ssm', '/dabr-ca/postgres/password') }}",
   database: "pleroma",
-  hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}"
+  hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}",
+  pool_size: 20
 
 # Increase performance for PostgreSQL 12+
 # https://docs-develop.pleroma.social/backend/configuration/postgresql/#disable-generic-query-plans
