@@ -33,19 +33,23 @@ config :pleroma, Pleroma.Repo,
   username: "pleroma",
   password: "{{ lookup('aws_ssm', '/dabr-ca/postgres/password') }}",
   database: "pleroma",
-  hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}",
-  pool_size: 20
+  hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}"
 
-# Allow overriding pool_size
-config :pleroma, :dangerzone, override_repo_pool_size: true
-
-# Increase performance for PostgreSQL 12+
+# PostgreSQL tuning
+# References:
 # https://docs-develop.pleroma.social/backend/configuration/postgresql/#disable-generic-query-plans
+# https://michaldolata.appunite.com/post/how-to-deal-with-db-connection-connection-error
+# https://hexdocs.pm/db_connection/DBConnection.html#start_link/2-queue-config
 config :pleroma, Pleroma.Repo,
   prepare: :named,
   parameters: [
     plan_cache_mode: "force_custom_plan"
-  ]
+  ],
+  pool_size: 20,
+  queue_target: 2000
+
+# Allow overriding pool_size
+config :pleroma, :dangerzone, override_repo_pool_size: true
 
 # Configure web push notifications
 config :web_push_encryption, :vapid_details, subject: "mailto:wzyboy@wzyboy.org"
