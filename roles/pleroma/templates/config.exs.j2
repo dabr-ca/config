@@ -46,7 +46,7 @@ config :pleroma, Pleroma.Repo,
     plan_cache_mode: "force_custom_plan"
   ],
   pool_size: 20,
-  queue_target: 2000
+  queue_target: 5000
 
 # Allow overriding pool_size
 config :pleroma, :dangerzone, override_repo_pool_size: true
