@@ -36,6 +36,9 @@ config :pleroma, Pleroma.Repo,
   hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}",
   pool_size: 20
 
+# Allow overriding pool_size
+config :pleroma, :dangerzone, override_repo_pool_size: true
+
 # Increase performance for PostgreSQL 12+
 # https://docs-develop.pleroma.social/backend/configuration/postgresql/#disable-generic-query-plans
 config :pleroma, Pleroma.Repo,
