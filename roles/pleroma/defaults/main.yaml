@@ -1,7 +1,7 @@
-pleroma_ver: "2.4.4"
+pleroma_ver: "2.4.5"
 # "https://git.pleroma.social/api/v4/projects/2/jobs/artifacts/stable/download?job=amd64"
 pleroma_tarball_url: "https://pub.wzyboy.im/bin/pleroma-{{ pleroma_ver }}.tgz"
-pleroma_tarball_checksum: "sha256:3730c3994bc855d0633043893199c36331f425602d624070447dabc88fadffa5"
+pleroma_tarball_checksum: "sha256:03e497e0eb37587d9c5d597620b53d2ba8731c76b463f2d413747ad9f870576a"
 
 pleroma_home: /opt/pleroma
 pleroma_data: /var/lib/pleroma
