@@ -19,10 +19,6 @@ server {
     proxy_set_header Host dabr.ca;
   }
 
-  location ~ ^/proxy {
-    return 301 https://files.dabr.ca$request_uri;
-  }
-
   location / {
     try_files $uri /index.html =404;
   }
