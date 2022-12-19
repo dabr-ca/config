@@ -1,0 +1,47 @@
+---
+- name: install nginx
+  apt:
+    name:
+      - nginx
+    update_cache: true
+
+- name: creat dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ gl_home }}"
+
+- name: download glitch-lily release
+  get_url:
+    url: "{{ gl_archive_url }}"
+    dest: /opt/gl.tgz
+    mode: 0644
+    checksum: "{{ gl_archive_checksum }}"
+
+- name: extract glitch-lily release
+  unarchive:
+    src: /opt/gl.tgz
+    dest: "{{ gl_home }}"
+    remote_src: true
+    creates: "{{ gl_home }}/public/sw.js"
+
+- name: render nginx config
+  template:
+    src: gl.nginx.conf.j2
+    dest: /etc/nginx/sites-enabled/gl.conf
+    mode: 0644
+  notify:
+    - restart nginx
+
+- name: validate nginx config
+  command:
+    cmd: nginx -t
+  changed_when: false
+
+- name: enable nginx
+  systemd:
+    name: nginx
+    enabled: true
+    daemon_reload: true

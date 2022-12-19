@@ -1,0 +1,33 @@
+# vim: ft=nginx:
+
+upstream pleroma {
+  server 127.0.0.1:4000;
+}
+
+server {
+  listen 4080;
+  server_name gl.dabr.ca;
+
+  root {{ gl_home }}/public/;
+
+  location ~ ^/(api|.well-known|nodeinfo|media|oauth|favicon.*|instance|images) {
+    proxy_pass http://pleroma;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host dabr.ca;
+  }
+
+  location ~ ^/proxy {
+    return 301 https://files.dabr.ca$request_uri;
+  }
+
+  location / {
+    try_files $uri /index.html =404;
+  }
+
+  location = /index.html {
+    expires 30s;
+  }
+}
