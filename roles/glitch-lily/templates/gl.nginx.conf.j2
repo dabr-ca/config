@@ -10,6 +10,10 @@ server {
 
   root {{ gl_home }}/public/;
 
+  set_real_ip_from  10.0.0.0/8;
+  real_ip_header    X-Forwarded-For;
+  real_ip_recursive on;
+
   location ~ ^/(api|.well-known|nodeinfo|media|oauth|favicon.*|instance|images) {
     proxy_pass http://pleroma;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
