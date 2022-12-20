@@ -111,6 +111,16 @@ config :ex_aws, :s3,
 # config :ex_aws, :s3,
 #   host: "s3.wasabisys.com"
 
+# Monitoring
+# https://docs-develop.pleroma.social/backend/development/API/prometheus/
+# https://hexdocs.pm/prometheus_plugs/Prometheus.PlugExporter.html
+config :prometheus, Pleroma.Web.Endpoint.MetricsExporter,
+  enabled: true,
+  auth: false,
+  ip_whitelist: [],
+  path: "/api/pleroma/app_metrics",
+  format: :text
+
 # Email
 # https://docs.pleroma.social/backend/configuration/cheatsheet/#email
 config :ex_aws,
