@@ -17,6 +17,12 @@ config :pleroma, :instance,
   notify_email: "no-reply@dabr.ca",
   healthcheck: true,
   limit: 5000,
+  description_limit: 5000,
+  remote_limit: 100_000,
+  upload_limit: 16 * 1024 * 1024,
+  avatar_upload_limit: 2 * 1024 * 1024,
+  background_upload_limit: 4 * 1024 * 1024,
+  banner_upload_limit: 4 * 1024 * 1024,
   registrations_open: false,
   invites_enabled: true
 
