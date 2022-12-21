@@ -117,7 +117,7 @@ config :ex_aws, :s3,
 config :prometheus, Pleroma.Web.Endpoint.MetricsExporter,
   enabled: true,
   auth: false,
-  ip_whitelist: [],
+  ip_whitelist: ["127.0.0.1"],
   path: "/api/pleroma/app_metrics",
   format: :text
 
