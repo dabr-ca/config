@@ -83,10 +83,7 @@ config :pleroma, :http_security,
   enabled: true,
   sts: true
 
-# Configure S3 support if desired.
-# The public S3 endpoint (base_url) is different depending on region and provider,
-# consult your S3 provider's documentation for details on what to use.
-
+# Configure S3
 config :pleroma, Pleroma.Upload,
  uploader: Pleroma.Uploaders.S3,
  base_url: "https://files.dabr.ca",
@@ -106,10 +103,6 @@ config :ex_aws, :s3,
   access_key_id: :instance_role,
   secret_access_key: :instance_role,
   region: "us-west-2"
-
-# For using third-party S3 clones like wasabi, also do:
-# config :ex_aws, :s3,
-#   host: "s3.wasabisys.com"
 
 # Monitoring
 # https://docs-develop.pleroma.social/backend/development/API/prometheus/
@@ -135,7 +128,7 @@ config :ex_aws,
 #  adapter: Swoosh.Adapters.ExAwsAmazonSES
 
 # Generate and include secrets
-# https://github.com/angristan/docker-pleroma/blob/51724af0882b908a18dc12c11fef60eb8308fb3a/config.exs#L37-L62
+# https://git.pleroma.social/pleroma/pleroma/-/blob/5910d58cf7f468722b3774622b6b40a07b5d6444/config/docker.exs#L31-69
 if not File.exists?("/var/lib/pleroma/secret.exs") do
   secret = :crypto.strong_rand_bytes(64) |> Base.encode64() |> binary_part(0, 64)
   signing_salt = :crypto.strong_rand_bytes(8) |> Base.encode64() |> binary_part(0, 8)
