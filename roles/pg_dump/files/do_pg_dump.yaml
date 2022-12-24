@@ -18,6 +18,7 @@
     db_address: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address', region=region) }}"
     db_password: "{{ lookup('aws_ssm', '/dabr-ca/postgres/password', region=region) }}"
     s3_bucket: "{{ lookup('aws_ssm', '/dabr-ca/s3_bucket_backup', region=region) }}"
+    heartbeat_url: "{{ lookup('aws_ssm', '/dabr-ca/postgres/heartbeat_url', region=region) }}"
 
   tasks:
     - name: configure database credentials
@@ -42,3 +43,10 @@
       file:
         path: "{{ pg_dump_path_local }}"
         state: absent
+
+    - name: heartbeat check-in
+      get_url:
+        url: "{{ heartbeat_url }}"
+        dest: "{{ pg_dump_home }}/heartbeat"
+        force: true
+        mode: 0644
