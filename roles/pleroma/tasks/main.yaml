@@ -54,14 +54,6 @@
     group: pleroma
     mode: 0600
 
-- name: configure database credentials for psql
-  template:
-    src: pgpass
-    dest: "{{ pleroma_home }}/.pgpass"
-    mode: 0600
-    owner: pleroma
-    group: pleroma
-
 - name: render systemd service unit
   template:
     src: pleroma.service.j2
