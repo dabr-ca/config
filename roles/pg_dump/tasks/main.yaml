@@ -22,12 +22,6 @@
     name: postgresql-client-13
     update_cache: true
 
-- name: configure database credentials
-  template:
-    src: pgpass
-    dest: "{{ ansible_env.HOME }}/.pgpass"
-    mode: 0600
-
 - name: install Ansible and boto3
   apt:
     name:
