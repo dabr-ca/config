@@ -6,7 +6,6 @@
       - curl
       - unzip
       - libncurses5
-      - postgresql-client
       - libmagic-dev
       - imagemagick
       - ffmpeg
