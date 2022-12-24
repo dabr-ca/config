@@ -1,0 +1,44 @@
+# This playbook is intended to be run by systemd timer to do daily backups
+# To keep things simple, it should:
+# - include everything in one file (no split roles etc)
+# - be compatible with Ansible < 2.10 (before the ansible-core split)
+
+---
+- name: dump PostgreSQL database and upload to S3
+  hosts: localhost
+  connection: local
+
+  vars:
+    pg_dump_home: /opt/pg_dump
+    pg_dump_filename: "pleroma-{{ ansible_date_time.iso8601_basic_short }}.bin"
+    pg_dump_path_local: "{{ pg_dump_home }}/{{ pg_dump_filename }}"
+    pg_dump_path_s3: "pg_dump/{{ pg_dump_filename }}"
+
+    region: "us-west-2"
+    db_address: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address', region=region) }}"
+    db_password: "{{ lookup('aws_ssm', '/dabr-ca/postgres/password', region=region) }}"
+    s3_bucket: "{{ lookup('aws_ssm', '/dabr-ca/s3_bucket_backup', region=region) }}"
+
+  tasks:
+    - name: configure database credentials
+      copy:
+        content: "{{ db_address }}:5432:pleroma:pleroma:{{ db_password }}"
+        dest: "{{ ansible_env.HOME }}/.pgpass"
+        mode: 0600
+
+    - name: dump PostgreSQL database
+      command:
+        cmd: "pg_dump -h {{ db_address }} -U pleroma -d pleroma -Fc -f {{ pg_dump_path_local }}"
+        creates: "{{ pg_dump_path_local }}"
+
+    - name: upload dump file to S3
+      aws_s3:
+        bucket: "{{ s3_bucket }}"
+        mode: put
+        src: "{{ pg_dump_path_local }}"
+        object: "{{ pg_dump_path_s3 }}"
+
+    - name: remove local dump file
+      file:
+        path: "{{ pg_dump_path_local }}"
+        state: absent

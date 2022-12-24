@@ -1,1 +1,0 @@
-{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}:5432:pleroma:pleroma:{{ lookup('aws_ssm', '/dabr-ca/postgres/password') }}

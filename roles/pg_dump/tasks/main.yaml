@@ -1,4 +1,11 @@
 ---
+- name: ensure user exists (it should already exists)
+  user:
+    name: pleroma
+    shell: /bin/bash
+    home: /opt/pleroma
+    system: true
+
 # https://www.postgresql.org/download/linux/ubuntu/
 - name: install PostgreSQL APT key
   apt_key:
@@ -21,20 +28,19 @@
     dest: "{{ ansible_env.HOME }}/.pgpass"
     mode: 0600
 
-- name: install Ansible
+- name: install Ansible and boto3
   apt:
     name:
       - ansible
+      - python3-boto3
 
 - name: make dir
   file:
-    paht: "{{ item }}"
+    path: "{{ pg_dump_home }}"
     state: directory
     owner: pleroma
     group: pleroma
     mode: 0755
-    with_items:
-      - "{{ pg_dump_home }}"
 
 - name: copy playbook
   copy:
