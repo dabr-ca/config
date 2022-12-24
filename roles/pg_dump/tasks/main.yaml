@@ -1,4 +1,11 @@
 ---
+- name: ensure user exists (it should already exists)
+  user:
+    name: pleroma
+    shell: /bin/bash
+    home: /opt/pleroma
+    system: true
+
 # https://www.postgresql.org/download/linux/ubuntu/
 - name: install PostgreSQL APT key
   apt_key:
@@ -15,26 +22,40 @@
     name: postgresql-client-13
     update_cache: true
 
-- name: configure database credentials
-  template:
-    src: pgpass
-    dest: "{{ ansible_env.HOME }}/.pgpass"
-    mode: 0600
-
-- name: dump PostgreSQL database
-  command:
-    cmd: "pg_dump -h {{ lookup('aws_ssm', '/dabr-ca/postgres/address') }} -U pleroma -d pleroma -Fc -f {{ pg_dump_path_local }}"
-    creates: "{{ pg_dump_path_local }}"
-
-- name: install boto for accessing S3
+- name: install Ansible and boto3
   apt:
     name:
+      - ansible
       - python3-boto3
-      - python3-botocore
 
-- name: upload dump file to S3
-  amazon.aws.aws_s3:
-    bucket: "{{ lookup('aws_ssm', '/dabr-ca/s3_bucket_backup') }}"
-    mode: put
-    src: "{{ pg_dump_path_local }}"
-    object: "{{ pg_dump_path_s3 }}"
+- name: make dir
+  file:
+    path: "{{ pg_dump_home }}"
+    state: directory
+    owner: pleroma
+    group: pleroma
+    mode: 0755
+
+- name: copy playbook
+  copy:
+    src: do_pg_dump.yaml
+    dest: "{{ pg_dump_home }}/do_pg_dump.yaml"
+    owner: pleroma
+    group: pleroma
+    mode: 0644
+
+- name: render systemd units
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    mode: 0644
+  with_items:
+    - pg_dump.service
+    - pg_dump.timer
+
+- name: start systemd timer
+  systemd:
+    name: pg_dump.timer
+    state: started
+    enabled: true
+    daemon_reload: true

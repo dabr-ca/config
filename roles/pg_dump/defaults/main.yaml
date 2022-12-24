@@ -1,3 +1,1 @@
-pg_dump_filename: "pleroma-{{ ansible_date_time.iso8601_basic_short }}.bin"
-pg_dump_path_local: "{{ ansible_env.HOME }}/{{ pg_dump_filename }}"
-pg_dump_path_s3: "pg_dump/{{ pg_dump_filename }}"
+pg_dump_home: /opt/pg_dump

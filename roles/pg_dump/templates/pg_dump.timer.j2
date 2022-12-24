@@ -1,0 +1,9 @@
+[Unit]
+Description=Dump PostgreSQL database and upload to S3 - daily
+
+[Timer]
+OnCalendar=daily
+RandomizedDelaySec=1h
+
+[Install]
+WantedBy=timers.target

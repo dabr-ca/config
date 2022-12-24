@@ -2,3 +2,4 @@
   roles:
     - role: ubuntu_init
     - role: pleroma
+    - role: pg_dump
