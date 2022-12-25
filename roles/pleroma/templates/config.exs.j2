@@ -59,14 +59,6 @@ config :pleroma, Pleroma.Repo,
 # Allow overriding pool_size
 config :pleroma, :dangerzone, override_repo_pool_size: true
 
-# Oban tuning
-# https://git.pleroma.social/pleroma/pleroma/-/merge_requests/3756/diffs
-config :pleroma, Oban,
-  queues: [
-    federator_incoming: 5,
-    federator_outgoing: 5,
-  ]
-
 # Configure web push notifications
 config :web_push_encryption, :vapid_details, subject: "mailto:webmaster@dabr.ca"
 
