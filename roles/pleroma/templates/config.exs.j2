@@ -88,9 +88,9 @@ config :pleroma, Pleroma.Upload,
  uploader: Pleroma.Uploaders.S3,
  base_url: "https://files.dabr.ca",
  filters: [
+  Pleroma.Upload.Filter.Exiftool,
   Pleroma.Upload.Filter.Dedupe,
-  Pleroma.Upload.Filter.AnonymizeFilename,
-  Pleroma.Upload.Filter.Exiftool
+  Pleroma.Upload.Filter.AnonymizeFilename
 ]
 
 config :pleroma, Pleroma.Uploaders.S3,
