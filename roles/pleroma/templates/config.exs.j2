@@ -44,6 +44,12 @@ config :pleroma, Pleroma.Repo,
   database: "pleroma",
   hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}"
 
+# https://docs-develop.pleroma.social/backend/administration/CLI_tasks/config/
+# This option enables Admin Interface configuration and shadows all other
+# config in this file. Caution should be taken to ensure the consistency
+# between the database config and static config.
+config :pleroma, configurable_from_database: true
+
 # PostgreSQL tuning
 # References:
 # https://docs-develop.pleroma.social/backend/configuration/postgresql/#disable-generic-query-plans
