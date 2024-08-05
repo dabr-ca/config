@@ -21,6 +21,22 @@
     heartbeat_url: "{{ lookup('aws_ssm', '/dabr-ca/postgres/heartbeat_url', region=region) }}"
 
   tasks:
+    # https://www.postgresql.org/download/linux/ubuntu/
+    - name: install PostgreSQL APT key
+      apt_key:
+        url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+    - name: install PostgreSQL repository
+      apt_repository:
+        repo: "deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main"
+
+    # The major version needs to be in sync with RDS
+    # https://github.com/dabr-ca/infra/blob/d2b06f5bada3e14c60a9a227e866575db3ce7639/modules/pleroma/postgres.tf#L9
+    - name: install PostgreSQL client
+      apt:
+        name: postgresql-client-13
+        update_cache: true
+
     - name: configure database credentials
       copy:
         content: "{{ db_address }}:5432:pleroma:pleroma:{{ db_password }}"
