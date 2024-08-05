@@ -37,6 +37,12 @@
         name: postgresql-client-13
         update_cache: true
 
+    - name: make dir
+      file:
+        path: "{{ pg_dump_home }}"
+        state: directory
+        mode: 0755
+
     - name: configure database credentials
       copy:
         content: "{{ db_address }}:5432:pleroma:pleroma:{{ db_password }}"
