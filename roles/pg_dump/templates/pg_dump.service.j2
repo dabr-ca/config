@@ -4,5 +4,4 @@ Description=Dump PostgreSQL database and upload to S3
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/ansible-playbook {{ pg_dump_home }}/do_pg_dump.yaml
-User=pleroma
-Group=pleroma
+Environment=HOME=%h
