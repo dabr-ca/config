@@ -29,13 +29,20 @@
     - name: install PostgreSQL repository
       apt_repository:
         repo: "deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main"
+      register: add_pg_repo
 
     # The major version needs to be in sync with RDS
-    # https://github.com/dabr-ca/infra/blob/d2b06f5bada3e14c60a9a227e866575db3ce7639/modules/pleroma/postgres.tf#L9
-    - name: install PostgreSQL client
+    - name: install PostgreSQL client with cache update
       apt:
-        name: postgresql-client-13
+        name: postgresql-client-15
         update_cache: true
+      when: add_pg_repo.changed
+
+    - name: ensure PostgreSQL client is installed
+      apt:
+        name: postgresql-client-15
+        update_cache: false
+      when: not add_pg_repo.changed
 
     - name: make dir
       file:
