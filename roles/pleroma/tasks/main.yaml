@@ -5,7 +5,7 @@
     name:
       - curl
       - unzip
-      - libncurses5
+      - libncurses6
       - libmagic-dev
       - imagemagick
       - ffmpeg
