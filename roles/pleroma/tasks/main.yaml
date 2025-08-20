@@ -13,6 +13,7 @@
       - imagemagick
       - ffmpeg
       - libimage-exiftool-perl
+      - libvips42 # undocumented dep for Pleroma 2.9
     update_cache: true
 
 - name: add user

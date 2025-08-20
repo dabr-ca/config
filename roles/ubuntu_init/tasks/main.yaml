@@ -23,6 +23,12 @@
     dest: /etc/apt/preferences.d/no-snap.pref
     mode: 0644
 
+- name: Prevent recommendation packages from being installed
+  ansible.builtin.copy:
+    content: 'APT::Install-Recommends "false";'
+    dest: /etc/apt/apt.conf.d/99norecommends
+    mode: 0644
+
 - name: Disable unattended-upgrades
   ansible.builtin.systemd:
     name: unattended-upgrades
