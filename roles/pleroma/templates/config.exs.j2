@@ -39,7 +39,7 @@ config :pleroma, :media_proxy,
 
 config :pleroma, Pleroma.Repo,
   adapter: Ecto.Adapters.Postgres,
-  ssl: true,
+  ssl: [verify: :verify_none],
   username: "pleroma",
   password: "{{ lookup('aws_ssm', '/dabr-ca/postgres/password') }}",
   database: "pleroma",
