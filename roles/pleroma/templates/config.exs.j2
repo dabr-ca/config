@@ -103,16 +103,6 @@ config :ex_aws, :s3,
   secret_access_key: :instance_role,
   region: "us-west-2"
 
-# Monitoring
-# https://docs-develop.pleroma.social/backend/development/API/prometheus/
-# https://hexdocs.pm/prometheus_plugs/Prometheus.PlugExporter.html
-config :prometheus, Pleroma.Web.Endpoint.MetricsExporter,
-  enabled: true,
-  auth: false,
-  ip_whitelist: ["127.0.0.1"],
-  path: "/api/pleroma/app_metrics",
-  format: :text
-
 # Email
 # https://docs.pleroma.social/backend/configuration/cheatsheet/#email
 config :ex_aws,
@@ -120,11 +110,9 @@ config :ex_aws,
   secret_access_key: :instance_role,
   region: "us-west-2"
 
-# Email is currently disabled as IAM role is not available
-# https://git.pleroma.social/pleroma/pleroma/-/issues/3012
-#config :pleroma, Pleroma.Emails.Mailer,
-#  enabled: true,
-#  adapter: Swoosh.Adapters.ExAwsAmazonSES
+config :pleroma, Pleroma.Emails.Mailer,
+  enabled: true,
+  adapter: Swoosh.Adapters.ExAwsAmazonSES
 
 # Generate and include secrets
 # https://git.pleroma.social/pleroma/pleroma/-/blob/5910d58cf7f468722b3774622b6b40a07b5d6444/config/docker.exs#L31-69
