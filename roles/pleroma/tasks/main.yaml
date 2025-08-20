@@ -1,5 +1,8 @@
 # Roughly based on: https://docs-develop.pleroma.social/backend/installation/otp_en/
 
+- name: gather EC2 metadata
+  amazon.aws.ec2_metadata_facts:
+
 - name: install packages
   apt:
     name:
@@ -45,6 +48,14 @@
   with_items:
     - "{{ pleroma_data }}"
     - "{{ pleroma_config }}"
+
+# https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.CertificatesDownload
+- name: download RDS cert
+  get_url:
+    url: "https://truststore.pki.rds.amazonaws.com/{{ ansible_ec2_placement_region }}/{{ ansible_ec2_placement_region }}-bundle.pem"
+    dest: "{{ rds_bundle_path }}"
+    mode: 0644
+    checksum: "sha256:733b52e4b589586377e3e00f7c4625b61e14cbf0b5e08cace28b4f8aecc27c66"
 
 - name: render config file
   template:
