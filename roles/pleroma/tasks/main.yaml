@@ -22,13 +22,13 @@
 - name: download Pleroma release
   get_url:
     url: "{{ pleroma_tarball_url }}"
-    dest: /opt/pleroma.zip
+    dest: /opt/pleroma.tgz
     mode: 0644
     checksum: "{{ pleroma_tarball_checksum }}"
 
 - name: extract Pleroma release
   unarchive:
-    src: /opt/pleroma.zip
+    src: /opt/pleroma.tgz
     dest: "{{ pleroma_home }}"
     remote_src: true
     creates: "{{ pleroma_home }}/OTP_VERSION"
