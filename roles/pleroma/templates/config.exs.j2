@@ -46,9 +46,11 @@ config :pleroma, Pleroma.Repo,
   database: "pleroma",
   hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}"
 
-# PostgreSQL tuning
+# Performance tuning
 # https://docs-develop.pleroma.social/backend/configuration/postgresql/#disable-generic-query-plans
 # https://hexdocs.pm/db_connection/DBConnection.html#start_link/2-queue-config
+config :pleroma, :dangerzone, override_repo_pool_size: true
+
 config :pleroma, Pleroma.Repo,
   prepare: :named,
   pool_size: 12,
@@ -59,8 +61,19 @@ config :pleroma, Pleroma.Repo,
     plan_cache_mode: "force_custom_plan"
   ]
 
-# Allow overriding pool_size
-config :pleroma, :dangerzone, override_repo_pool_size: true
+config :pleroma, Oban,
+  repo: Pleroma.Repo,
+  queues: [
+    federator_outgoing: 3,
+    federator_incoming: 2,
+    background: 2,
+    search_indexing: 1,
+    slow: 1,
+    web_push: 1
+  ],
+  plugins: [
+    {Oban.Plugins.Pruner, max_age: 86_400}
+  ]
 
 # Configure web push notifications
 config :web_push_encryption, :vapid_details, subject: "mailto:webmaster@dabr.ca"
