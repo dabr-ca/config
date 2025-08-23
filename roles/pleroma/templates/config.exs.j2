@@ -24,7 +24,8 @@ config :pleroma, :instance,
   background_upload_limit: 4 * 1024 * 1024,
   banner_upload_limit: 4 * 1024 * 1024,
   registrations_open: false,
-  invites_enabled: true
+  invites_enabled: true,
+  static_dir: "/var/lib/pleroma/static"
 
 config :pleroma, :shout,
   enabled: false
@@ -46,11 +47,12 @@ config :pleroma, Pleroma.Repo,
   database: "pleroma",
   hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}"
 
+config :pleroma, :database, rum_enabled: false
+config :pleroma, :dangerzone, override_repo_pool_size: true
+
 # Performance tuning
 # https://docs-develop.pleroma.social/backend/configuration/postgresql/#disable-generic-query-plans
 # https://hexdocs.pm/db_connection/DBConnection.html#start_link/2-queue-config
-config :pleroma, :dangerzone, override_repo_pool_size: true
-
 config :pleroma, Pleroma.Repo,
   prepare: :named,
   pool_size: 12,
@@ -74,13 +76,6 @@ config :pleroma, Oban,
   plugins: [
     {Oban.Plugins.Pruner, max_age: 86_400}
   ]
-
-# Configure web push notifications
-config :web_push_encryption, :vapid_details, subject: "mailto:webmaster@dabr.ca"
-
-config :pleroma, :database, rum_enabled: false
-config :pleroma, :instance, static_dir: "/var/lib/pleroma/static"
-config :pleroma, Pleroma.Uploaders.Local, uploads: "/var/lib/pleroma/uploads"
 
 # https://docs-develop.pleroma.social/backend/administration/CLI_tasks/config/
 # This option enables Admin Interface configuration and shadows all other
@@ -152,6 +147,9 @@ config :pleroma, Pleroma.PromEx,
     pool_size: 5,
     cowboy_opts: []
   ]
+
+# Configure web push notifications
+config :web_push_encryption, :vapid_details, subject: "mailto:webmaster@dabr.ca"
 
 # Generate and include secrets
 # https://git.pleroma.social/pleroma/pleroma/-/blob/5910d58cf7f468722b3774622b6b40a07b5d6444/config/docker.exs#L31-69
