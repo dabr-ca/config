@@ -81,11 +81,14 @@ config :pleroma, Oban,
 # This option enables Admin Interface configuration and shadows all other
 # config in this file. Caution should be taken to ensure the consistency
 # between the database config and static config.
+# ./bin/pleroma_ctl config migrate_to_db
 config :pleroma, configurable_from_database: true
 
 # Do not provide FE config from BE
 config :pleroma, :frontend_configurations,
   pleroma_fe: %{}
+
+config :pleroma, :frontends, [primary: %{"name" => "pleroma-fe", "ref" => "kazv"}]
 
 # Enable Strict-Transport-Security once SSL is working:
 config :pleroma, :http_security,
