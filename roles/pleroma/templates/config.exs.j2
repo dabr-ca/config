@@ -89,9 +89,9 @@ config :pleroma, Pleroma.Upload,
  uploader: Pleroma.Uploaders.S3,
  base_url: "https://files.dabr.ca",
  filters: [
-  Pleroma.Upload.Filter.Exiftool.StripLocation,
-  Pleroma.Upload.Filter.Dedupe
-]
+   Pleroma.Upload.Filter.Exiftool.StripLocation,
+   Pleroma.Upload.Filter.Dedupe
+ ]
 
 config :pleroma, Pleroma.Uploaders.S3,
   bucket: "{{ lookup('aws_ssm', '/dabr-ca/s3_bucket') }}",
@@ -103,16 +103,6 @@ config :ex_aws, :s3,
   access_key_id: :instance_role,
   secret_access_key: :instance_role,
   region: "us-west-2"
-
-# Monitoring
-# https://docs-develop.pleroma.social/backend/development/API/prometheus/
-# https://hexdocs.pm/prometheus_plugs/Prometheus.PlugExporter.html
-config :prometheus, Pleroma.Web.Endpoint.MetricsExporter,
-  enabled: true,
-  auth: false,
-  ip_whitelist: ["127.0.0.1"],
-  path: "/api/pleroma/app_metrics",
-  format: :text
 
 # Email
 # https://docs.pleroma.social/backend/configuration/cheatsheet/#email
@@ -126,6 +116,29 @@ config :ex_aws,
 #config :pleroma, Pleroma.Emails.Mailer,
 #  enabled: true,
 #  adapter: Swoosh.Adapters.ExAwsAmazonSES
+
+# Promethus
+config :pleroma, Pleroma.PromEx,
+  disabled: false,
+  manual_metrics_start_delay: :no_delay,
+  drop_metrics_groups: [],
+  datasource: "grafanacloud-nobledesk0630-prom",
+  grafana: [
+    host: "https://nobledesk0630.grafana.net",
+    auth_token: "{{ lookup('aws_ssm', '/dabr-ca/grafana_cloud_token') }}",
+    upload_dashboards_on_start: true,
+    folder_name: "dabr-ca",
+    annotate_app_lifecycle: true
+  ],
+  metrics_server: [
+    port: 4021,
+    path: "/metrics",
+    protocol: :http,
+    auth_strategy: :bearer,
+    auth_token: "{{ lookup('aws_ssm', '/dabr-ca/prometheus_token') }}",
+    pool_size: 5,
+    cowboy_opts: []
+  ]
 
 # Generate and include secrets
 # https://git.pleroma.social/pleroma/pleroma/-/blob/5910d58cf7f468722b3774622b6b40a07b5d6444/config/docker.exs#L31-69
