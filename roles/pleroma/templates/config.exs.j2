@@ -65,14 +65,6 @@ config :pleroma, Pleroma.Repo,
 
 config :pleroma, Oban,
   repo: Pleroma.Repo,
-  queues: [
-    federator_outgoing: 3,
-    federator_incoming: 2,
-    background: 2,
-    search_indexing: 1,
-    slow: 1,
-    web_push: 1
-  ],
   plugins: [
     {Oban.Plugins.Pruner, max_age: 86_400},
     {Oban.Plugins.Lifeline, rescue_after: 300}
@@ -83,7 +75,7 @@ config :pleroma, Oban,
 # config in this file. Caution should be taken to ensure the consistency
 # between the database config and static config.
 # ./bin/pleroma_ctl config migrate_to_db
-config :pleroma, configurable_from_database: true
+config :pleroma, configurable_from_database: false
 
 # Do not provide FE config from BE
 config :pleroma, :frontend_configurations,
