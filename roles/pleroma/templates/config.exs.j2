@@ -48,14 +48,12 @@ config :pleroma, Pleroma.Repo,
   hostname: "{{ lookup('aws_ssm', '/dabr-ca/postgres/address') }}"
 
 config :pleroma, :database, rum_enabled: false
-config :pleroma, :dangerzone, override_repo_pool_size: true
 
 # Performance tuning
 # https://docs-develop.pleroma.social/backend/configuration/postgresql/#disable-generic-query-plans
 # https://hexdocs.pm/db_connection/DBConnection.html#start_link/2-queue-config
 config :pleroma, Pleroma.Repo,
   prepare: :named,
-  pool_size: 12,
   queue_target: 2_000,
   queue_interval: 1_000,
   parameters: [
@@ -75,7 +73,7 @@ config :pleroma, Oban,
 # config in this file. Caution should be taken to ensure the consistency
 # between the database config and static config.
 # ./bin/pleroma_ctl config migrate_to_db
-config :pleroma, configurable_from_database: false
+config :pleroma, configurable_from_database: true
 
 # Do not provide FE config from BE
 config :pleroma, :frontend_configurations,
