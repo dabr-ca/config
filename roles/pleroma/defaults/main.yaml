@@ -1,6 +1,6 @@
 pleroma_ver: "2.9.1"
-pleroma_tarball_url: "https://pub.wzyboy.im/bin/pleroma-{{ pleroma_ver }}.tgz"
-pleroma_tarball_checksum: "sha256:66386e109e0e34c7827972e449775f8a1be205dfa5ef0701277a8319856e9b66"
+pleroma_tarball_url: "https://pub.wzyboy.im/bin/pleroma-{{ pleroma_ver }}-arm.tgz"
+pleroma_tarball_checksum: "sha256:0b5c76c83c9a934d67d8982acc707d7df44641e9cd7aa324d769bf57f7d88acd"
 
 pleroma_home: /opt/pleroma
 pleroma_data: /var/lib/pleroma
