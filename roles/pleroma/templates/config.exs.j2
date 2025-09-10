@@ -74,7 +74,8 @@ config :pleroma, Oban,
     web_push: 1
   ],
   plugins: [
-    {Oban.Plugins.Pruner, max_age: 86_400}
+    {Oban.Plugins.Pruner, max_age: 86_400},
+    {Oban.Plugins.Lifeline, rescue_after: 300}
   ]
 
 # https://docs-develop.pleroma.social/backend/administration/CLI_tasks/config/
