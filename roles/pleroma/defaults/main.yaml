@@ -1,6 +1,6 @@
-pleroma_ver: "2.9.1"
-pleroma_tarball_url: "https://pub.wzyboy.im/bin/pleroma-{{ pleroma_ver }}-arm.tgz"
-pleroma_tarball_checksum: "sha256:0b5c76c83c9a934d67d8982acc707d7df44641e9cd7aa324d769bf57f7d88acd"
+pleroma_ver: "v2.10.2"
+pleroma_tarball_url: "https://github.com/dabr-ca/pleroma-otp/releases/download/{{ pleroma_ver }}/pleroma-otp-{{ pleroma_ver }}-arm64.tar.gz"
+pleroma_tarball_checksum: "sha256:6daaa47acce5620d802d667bc48ad6bf24ec0c72cba41934019df4b510e4cdd4"
 
 pleroma_home: /opt/pleroma
 pleroma_data: /var/lib/pleroma
