@@ -50,6 +50,21 @@
     - "{{ pleroma_data }}"
     - "{{ pleroma_config }}"
 
+- name: read Pleroma secret config from SSM
+  set_fact:
+    pleroma_secret_exs: "{{ lookup('aws_ssm', pleroma_secret_exs_ssm_parameter, decrypt=true, on_missing='skip', on_denied='error') }}"
+  no_log: true
+
+- name: restore Pleroma secret config from SSM
+  copy:
+    content: "{{ pleroma_secret_exs }}"
+    dest: "{{ pleroma_data }}/secret.exs"
+    owner: pleroma
+    group: pleroma
+    mode: '0600'
+  when: pleroma_secret_exs | default('', true) | length > 0
+  no_log: true
+
 # https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.CertificatesDownload
 - name: download RDS cert
   get_url:
