@@ -79,7 +79,10 @@ config :pleroma, configurable_from_database: true
 config :pleroma, :frontend_configurations,
   pleroma_fe: %{}
 
-config :pleroma, :frontends, [primary: %{"name" => "pleroma-fe", "ref" => "kazv"}]
+# Leave :primary unset so Pleroma serves the bundled frontend by default.
+config :pleroma, :frontends,
+  available: %{},
+  pickable: ["pleroma-fe/develop"]
 
 # Enable Strict-Transport-Security once SSL is working:
 config :pleroma, :http_security,
