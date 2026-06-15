@@ -2,4 +2,7 @@
   roles:
     - role: ubuntu_init
     - role: pleroma
+
+- hosts: manhole
+  roles:
     - role: pg_dump

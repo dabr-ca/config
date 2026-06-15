@@ -55,3 +55,11 @@
   ansible.builtin.apt:
     autoremove: true
     purge: true
+
+- name: Install tmux config
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/wzyboy/dotfiles/master/.tmux.conf
+    dest: /home/ubuntu/.tmux.conf
+    owner: ubuntu
+    group: ubuntu
+    mode: 0644
