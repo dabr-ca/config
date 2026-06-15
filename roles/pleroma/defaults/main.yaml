@@ -1,6 +1,6 @@
-pleroma_ver: "v2.10.2"
-pleroma_tarball_url: "https://github.com/dabr-ca/pleroma-otp/releases/download/{{ pleroma_ver }}/pleroma-otp-{{ pleroma_ver }}-arm64.tar.gz"
-pleroma_tarball_checksum: "sha256:6daaa47acce5620d802d667bc48ad6bf24ec0c72cba41934019df4b510e4cdd4"
+# Immutable artifacts https://github.com/dabr-ca/pleroma-otp/releases
+pleroma_tarball_url: "https://github.com/dabr-ca/pleroma-otp/releases/download/pleroma-otp-v2.10.2-arm64-run-27526120059-attempt-1/pleroma-otp-v2.10.2-arm64.tar.gz"
+pleroma_tarball_checksum: "sha256:258e5d3df9411264abb6428e75bef1b2179cd8cb0f69cb616d13617864de7fad"
 
 pleroma_home: /opt/pleroma
 pleroma_data: /var/lib/pleroma
