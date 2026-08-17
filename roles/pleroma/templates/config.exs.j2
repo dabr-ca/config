@@ -115,8 +115,8 @@ config :ex_aws,
   secret_access_key: :instance_role,
   region: "us-west-2"
 
-# Email is currently disabled as IAM role is not available
-# https://git.pleroma.social/pleroma/pleroma/-/issues/3012
+# Email is currently disabled due to TLS verification bug
+# https://git.pleroma.social/pleroma/pleroma/issues/7962
 #config :pleroma, Pleroma.Emails.Mailer,
 #  enabled: true,
 #  adapter: Swoosh.Adapters.ExAwsAmazonSES
