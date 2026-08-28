@@ -78,10 +78,15 @@ config :pleroma, configurable_from_database: true
 config :pleroma, :frontend_configurations,
   pleroma_fe: %{}
 
-# Leave :primary unset so Pleroma serves the bundled frontend by default.
+# Install reproducible zipball to "master" ref like this:
+# ./bin/pleroma_ctl frontend install pleroma-fe --build-url 'https://github.com/dabr-ca/pleroma-otp/releases/download/pleroma-fe-2.11.3-8005fcc-run-33216454292-attempt-1/pleroma-fe-2.11.3-8005fcc.zip' --ref master
 config :pleroma, :frontends,
+  primary: %{
+    "name" => "pleroma-fe",
+    "ref" => "master"
+  },
   available: %{},
-  pickable: ["pleroma-fe/develop", "pleroma-fe/master"]
+  pickable: ["pleroma-fe/master"]
 
 # Enable Strict-Transport-Security once SSL is working:
 config :pleroma, :http_security,
